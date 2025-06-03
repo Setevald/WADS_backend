@@ -7,6 +7,7 @@ import logging
 from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pymongo.errors import ServerSelectionTimeoutError
+import certifi
 
 from app.config import settings
 
@@ -26,9 +27,11 @@ class Database:
                 settings.mongodb_url,
                 serverSelectionTimeoutMS=5000,
                 maxPoolSize=50,
-                minPoolSize=10
+                minPoolSize=10,
+                tls=True,
+                tlsCAFile=certifi.where()
             )
-            
+
             # Test the connection
             await self.client.admin.command('ismaster')
             self.database = self.client[settings.database_name]
