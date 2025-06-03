@@ -25,15 +25,15 @@ class Database:
         try:
             self.client = AsyncIOMotorClient(
                 settings.mongodb_url,
+                tls=True,
+                tlsCAFile=certifi.where(),
                 serverSelectionTimeoutMS=5000,
                 maxPoolSize=50,
-                minPoolSize=10,
-                tls=True,
-                tlsCAFile=certifi.where()
+                minPoolSize=10
             )
 
             # Test the connection
-            await self.client.admin.command('ismaster')
+            await self.client.list_database_names()
             self.database = self.client[settings.database_name]
             
             # Create indexes for better performance
