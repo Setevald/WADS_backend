@@ -3,6 +3,7 @@ Help Desk System Backend
 FastAPI application with MongoDB integration
 """
 
+import os
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -92,8 +93,8 @@ async def options_handler(path: str):
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host=settings.host,
-        port=settings.port,
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", 8000)),
         reload=settings.debug,
         log_level="info"
     ) 
