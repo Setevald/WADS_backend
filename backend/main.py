@@ -45,9 +45,12 @@ app = FastAPI(
 # Configure CORS with more explicit settings
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=[
+        "https://wads-fp-beta.vercel.app",  # your Vercel frontend
+        "http://localhost:3000",            # local dev
+    ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"]
 )
